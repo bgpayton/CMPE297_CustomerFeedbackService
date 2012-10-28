@@ -1,0 +1,15 @@
+
+<?php
+  do_header ("wow" ); 
+
+//test for command line app
+ $location="http://svlvm-sdi01.svl.ibm.com:9000/review/cust_b/prod_a4";
+
+ print "current location =$location<br/><br/>"; 
+
+ print "<pre>"; 
+ echo ` curl -i $location`;
+ print "</pre>"; 
+
+?>
+

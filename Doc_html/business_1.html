@@ -1,0 +1,112 @@
+<br/>
+
+<?php
+
+
+  $business_name="Blue"; 
+  $product_listA=array(); 
+
+  $productA=array(); 
+  $productA['product_name']="Camera";
+  $productA['product_desc']= "Nikon D5100 DSLR Camera 2 Lens Bundle";
+  $productA['rating']=2; 
+  $productA['review_provided_by']= "someone@somewhere.com"; 
+  $productA['review_date']= "today"; 
+  $productA['review_feedback']= "Meet my exception"; 
+  array_push ($product_listA, $productA); 
+
+  $productA['product_name']="Kindle Fire HD";
+  $productA['product_desc']= "7\" HD Display, Dolby Audio, Dual-Band Dual-Antenna Wi-Fi, 16GB or 32GB";
+  $productA['rating']=3; 
+  $productA['review_provided_by']= "someone@somewhere.com"; 
+  $productA['review_date']= "today"; 
+  $productA['review_feedback']= "Meet my exception"; 
+  array_push ($product_listA, $productA); 
+
+  $show = "<table border='1'>\n";
+  $ln=1; 
+  foreach ( $product_listA as $key ) {
+      $show .= "  <tr>";
+      $show .= "<td >$ln</td> ";
+      $name=$key['product_name']; 
+      $desc=$key['product_desc']; 
+      $link="<a href='nowhere.svl.ibm.com'>view</a>"; 
+
+      $show .= "<td >" . $name  . "</td> ";
+      $show .= "<td >" . $desc  . "</td> ";
+      $show .= "<td >" . $link  . "</td> ";
+
+      $show .= "</tr>\n";
+      $ln++; 
+  }
+  $show .= "</table>\n";
+
+  print "$show\n<br/><br/>"; 
+
+
+  $productA=array_shift($product_listA); 
+  $sub_titleA=array(); 
+  $sub_titleA['product_name']="Product Name:";
+  $sub_titleA['product_desc']= "Description:";
+  $sub_titleA['rating']="rating"; 
+  $sub_titleA['review_provided_by']= "Provide By:"; 
+  $sub_titleA['review_date']= "Date"; 
+  $sub_titleA['review_feedback']= "Feedback: "; 
+
+
+  $show = "Business Unit: $business_name<br/>Input: <br/>\n";
+  $show .= "<form name='input'  method='POST'>\n";
+  $show .= "<table border='1'>";
+  foreach ( array_keys($productA) as $key ) {
+
+      $show .= "  <tr>";
+      $show .= "<td >" . $sub_titleA[$key] . "</td> ";
+      $show .= "<td >" . "<input type='text' name='$key' size='80' value='". 
+                   $productA[$key] . "'/>". "</td> ";
+
+      $show .= "</tr>\n";
+  }
+  $show .= "</table>";
+
+
+  $show .= "<input type='submit' value='Submit' >";
+  $show .="</form_db>\n"; 
+
+  print "$show"; 
+
+  print "<br/>"; 
+ 
+
+?>
+<hr/>
+vocabulary: <br/>
+<ol>
+  <li>Business Unit: (business_unit)
+  <li>product_name
+  <li>product_desc
+  <li>product_id
+  <li>rating : normalized
+  <li>reviewer
+  <li>review_date
+  <li>review_feedback : BLOG? to keep all others , JSON format ?
+  </ol>
+<ol>
+  <li>review_average
+  <li>review_total
+  <li>Most helpful favorable review
+  <li>Most helpful critical review
+</ol>
+
+<hr/>
+
+using existing BI tools:
+ <ol>
+   <li>cognos: BI and performance management tools. 
+   <li> SPSS:  Statistical Package for the Social Sciences
+       is a good first statistical package for people wanting to perform 
+       quantitative research in social science because it is easy to use and 
+       because it can be a good starting point to learn more advanced statistical packages.<br/>
+       1960, comes with it's own language
+   <li>Netezza:  Data Warehouse appliances, business intelligence and predictive analytics; 
+       ETL tools
+
