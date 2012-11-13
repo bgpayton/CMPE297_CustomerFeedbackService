@@ -2,8 +2,10 @@
 <h2>C297 notes </h2>
 
 <ol>
-  <li><a href="http://svlvm-sdi01.svl.ibm.com:9012/">Play testing <b>9012</b></a>
-  <li><a href="http://svlvm-sdi01.svl.ibm.com:9002/">Su's testing <b>9002</b></a>
+  <li><a href="http://svlvm-sdi01.svl.ibm.com:9001/">Brian Play testing <b>9001</b></a>
+  <li><a href="http://svlvm-sdi01.svl.ibm.com:9012/">Su Play testing <b>9012</b></a>
+  <li><a href="http://svlvm-sdi01.svl.ibm.com:9002/">small scala  testing <b>9002</b></a>
+  <li><a href="https://spider.svl.ibm.com/sudoku">Su's client<b>9002</b></a>
 </ol><br/>
 
 <ol>
@@ -11,16 +13,24 @@
    <li>curl -i  http://localhost:3000/subjects.json/1.json
    <li>curl -i  http://localhost:3000/subjects.json/1
    <li>curl -k  https://spider.svl.ibm.com
+   <li>curl  -v -X POST  "http://svlvm-sdi01.svl.ibm.com:9002/review/cust_b/prod_24a" -
+H "Content-Type: application/json" -d "{\"client_id\" : \"cust_b\",  \"product_i
+d\" : \"prod_24a\", \"review_text\": \"good\" } " <br/>
+     use \" ; ' insdie of the  " does not work
+
 </ol>
 
 <b>MongoDB</b> <a href="http://www.mongodb.org/display/DOCS/Overview+-+The+MongoDB+Interactive+Shell">example</a>
 <ol>
   <li>databases, collections, and indexes 
+  <li>mongoexport -d mydb -c things mongo1.json
   <li>mongoimport -d mydb -c things mongo1.json
   <li>var cursor=db.custFeed.find(); <br/>
   while ( cursor.hasNext() ) printjson (cursor.next() );
+  <li>show dbs
   <li>use custFeed 
   <li>show collections
+  <li>db.reviews.drop()
   <li>db.things.find().forEach(printjson);
   <li>db.things.find({name:"mongo"}).forEach(printjson);
   <li>db.things.find().forEach(printjson);
@@ -53,7 +63,7 @@
 <a href="https://help.github.com/articles/fork-a-repo">Repo </a>
 <ol>
   <li>git clone https://github.com/suching/CMPE297_CustomerFeedbackService.git
-  <li>git remote add upstream https://github.com/bgpayton/CMPE297_CustomerFeedbackService.git
+  <li>git remote add upstream <a href="https://github.com/bgpayton/CMPE297_CustomerFeedbackService.git">https://github.com/bgpayton/CMPE297_CustomerFeedbackService.git</a>
   <li>git fetch upstream
   <li>git merge upstream/master
   <li>git add

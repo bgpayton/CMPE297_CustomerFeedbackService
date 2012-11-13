@@ -1,18 +1,54 @@
 <html>
 
 <h3>Structure </h3>
-<pre>
-	"_id",
-	"client_id",
-	"inappropriate_count",
-	"negative_count",
-	"positive_count",
-	"product_id",
-	"rating",
-	"review_date",
-	"review_id",
-	"review_text",
-	"reviewer_id"
+
+	_id, <br/>
+	client_id, <br/>
+	product_id, <br/>
+	review_date, <br/>
+	review <br/>
+	&nbsp &nbsp &nbsp rating <br/>
+	&nbsp &nbsp &nbsp text <br/>
+       feedback<br/>
+        &nbsp &nbsp &nbsp positive_count, <br/>
+	&nbsp &nbsp &nbsp negative_count, <br/>
+	&nbsp &nbsp &nbsp inappropriate_count, <br/>
+
+<br/>
+example:<pre>
+{
+        "client_id" : "client_svl",
+        "product_id" : "ims",
+        "review_date" : ISODate("2012-11-13T03:11:15.223Z"),
+        "review" : {
+                "rating" : "A",
+                "text" : "sometext"
+        },
+        "feedback" : {
+                "positive_count" : 1,
+                "negative_count" : 0,
+                "inappropriate_count" : 0
+        }
+}
 </pre>
+
+
+<br/><br/>
+conf/routes
+<ol>
+  <li>GET     /                           controllers.Application.index</li><br/>
+  <li>GET     /admin/client              controllers.Application.clientForm</li><br/>
+  <li>GET     /admin/client/:client_id   controllers.Application.client(client_id)</li><br/>
+  <li>POST    /admin/client/:client_id   controllers.Application.addClient(client_id)</li><br/>
+  <li>GET     /review/:client_id/:product_id          controllers.Application.getReviews(client_id, product_id)</li><br/>
+  <li>POST    /review/:client_id/:product_id          controllers.Application.postReview(client_id, product_id)</li><br/>
+  <li>POST    /review/rating/:review_id/negative      controllers.Application.postReviewRatingNegative(review_id)</li><br/>
+  <li>POST    /review/rating/:review_id/positive      controllers.Application.postReviewRatingPositive(review_id)</li><br/>
+  <li>POST    /review/rating/:review_id/inappropriate controllers.Application.postReviewRatingInappropriate(review_id)</li><br/>
+  <li>GET     /report/:client_id/:report_type  controllers.Application.getSummaryReport(client_id, report_type)</li><br/>
+  <li>GET     /report/:client_id/:product_id/:report_type  controllers.Application.getProductReport(client_id, product_id, report_type)</li><br/>
+GET     /assets/*file               controllers.Assets.at(path="/public", file)</li><br/>
+
+</ol>
 
 </html>
