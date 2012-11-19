@@ -1,0 +1,39 @@
+@(cid: Array[ReviewData] )
+
+@import models.ReviewData
+
+@main(title = "testing") {
+    
+    
+</ol>
+
+    <br/><br/>
+   <table border='1'>
+     <tr>
+       <th>client_id</th>
+       <th>product_id</th>
+       <th>rating</th>
+       <th>text</th>
+       <th>feedback</th>
+    </tr>
+    @cid.map { c =>
+      <tr>
+         <td>@c.client_id</td>
+         <td>@c.product_id</td>
+         <td>@c.review.get.rating  </td>
+         <td>@c.review.get.text  </td>
+         <td>@c.feedback</td>
+      </tr>
+    }
+   </table>
+
+
+    <br/><br/>
+    
+    <h4>Notes</h4>
+<ol>
+<li> conf/routes :  add /sudoku/product1   controllers.prod1
+<li> app/controllers/Application.scala :  add action
+<li> app/views/product1.scala.html :  this page 
+<li>  pass in cid  for now
+}

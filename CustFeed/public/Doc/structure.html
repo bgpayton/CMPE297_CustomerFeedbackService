@@ -17,8 +17,9 @@
 <br/>
 example:<pre>
 {
+        "_id" : ObjectId("50a1e29a3c8262b88b4227c2"),
         "client_id" : "client_svl",
-        "product_id" : "ims",
+        "product_id" : "silicon",
         "review_date" : ISODate("2012-11-13T03:11:15.223Z"),
         "review" : {
                 "rating" : "A",
@@ -30,25 +31,79 @@ example:<pre>
                 "inappropriate_count" : 0
         }
 }
+
 </pre>
 
 
 <br/><br/>
-conf/routes
-<ol>
-  <li>GET     /                           controllers.Application.index</li><br/>
-  <li>GET     /admin/client              controllers.Application.clientForm</li><br/>
-  <li>GET     /admin/client/:client_id   controllers.Application.client(client_id)</li><br/>
-  <li>POST    /admin/client/:client_id   controllers.Application.addClient(client_id)</li><br/>
-  <li>GET     /review/:client_id/:product_id          controllers.Application.getReviews(client_id, product_id)</li><br/>
-  <li>POST    /review/:client_id/:product_id          controllers.Application.postReview(client_id, product_id)</li><br/>
-  <li>POST    /review/rating/:review_id/negative      controllers.Application.postReviewRatingNegative(review_id)</li><br/>
-  <li>POST    /review/rating/:review_id/positive      controllers.Application.postReviewRatingPositive(review_id)</li><br/>
-  <li>POST    /review/rating/:review_id/inappropriate controllers.Application.postReviewRatingInappropriate(review_id)</li><br/>
-  <li>GET     /report/:client_id/:report_type  controllers.Application.getSummaryReport(client_id, report_type)</li><br/>
-  <li>GET     /report/:client_id/:product_id/:report_type  controllers.Application.getProductReport(client_id, product_id, report_type)</li><br/>
-GET     /assets/*file               controllers.Assets.at(path="/public", file)</li><br/>
+conf/routes: controllers.Application.
 
-</ol>
+<table border='1'>
+<tr>
+  <tr><td>GET</td>
+      <td>/</td>
+      <td>index<br/>
+      <td>OK</td>
+    </tr>
+  <tr><td>GET</td>
+      <td>/admin/client</td>
+      <td>clientForm</li><br/>
+      <td>11/14 TODO</td>
+    </tr>
+  <tr><td>GET</td>
+      <td>    /admin/client/:client_id</td>
+      <td>  client(client_id)</li><br/>
+      <td>&nbsp</td>
+    </tr>
+  <tr><td>POST</td>
+      <td>   /admin/client/:client_id</td>
+      <td>  addClient(client_id)</li><br/>
+      <td>&nbsp</td>
+    </tr>
+  <tr><td>GET</td>
+      <td>/review/:client_id/:product_id<br/>
+        <a href="/review/client_svl/iron">review/client_svl/iron</a>
+       </td>
+      <td>getReviews(client_id, product_id)<br/>
+      <td> 11/14 Imp</td>
+    </tr>
+  <tr><td>POST</td>
+      <td>/review/:client_id/:product_id</td>
+      <td>postReview(client_id, product_id)</li><br/>
+      <td> 11/14 Imp</td>
+    </tr>
+  <tr><td>POST</td>
+      <td>   /review/rating/:review_id/negative</td>
+      <td>     postReviewRatingNegative(review_id)</li><br/>
+      <td>&nbsp</td>
+    </tr>
+  <tr><td>POST</td>
+      <td>   /review/rating/:review_id/positive </td>
+      <td>    postReviewRatingPositive(review_id)</li><br/>
+      <td>&nbsp</td>
+    </tr>
+  <tr><td>POST</td>
+      <td>   /review/rating/:review_id/inappropriate</td>
+      <td>postReviewRatingInappropriate(review_id)</li><br/>
+      <td>&nbsp</td>
+    </tr>
+  <tr><td>GET</td>
+      <td>    /report/:client_id/:report_type</td>
+      <td> getSummaryReport(client_id, report_type)</li><br/>
+      <td>&nbsp</td>
+    </tr>
+  <tr><td>GET</td>
+      <td>    /report/:client_id/:product_id/:report_type</td>
+      <td> getProductReport(client_id, product_id, report_type)
+      <td>&nbsp</td>
+  <tr><td>GET </td>
+      <td>  /assets/*file</td>
+      <td>  controllers.Assets.at(path="/public" 
+      <td>&nbsp</td>
+    </tr>
+</table>
+ storeReview(clientID: String, productID: String, reviewText: String) 
 
+
+<br/><br/>
 </html>

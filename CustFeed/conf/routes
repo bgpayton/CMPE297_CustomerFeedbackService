@@ -7,10 +7,10 @@ GET     /                           controllers.Application.index
 
 # Administration API
 
-GET     /admin/client              controllers.Application.clientForm
+GET     /admin/client              controllers.Application.addClient
 
 GET     /admin/client/:client_id   controllers.Application.client(client_id)
-POST    /admin/client/:client_id   controllers.Application.addClient(client_id)
+# POST    /admin/client/:client_id   controllers.Application.addClient(client_id)
 PUT     /admin/client/:client_id   controllers.Application.editClient(client_id)
 
 DELETE  /admin/client/:client_id   controllers.Application.removeClient(client_id)
@@ -29,6 +29,8 @@ POST    /review/rating/:review_id/inappropriate controllers.Application.postRevi
 GET     /report/:client_id/:report_type  controllers.Application.getSummaryReport(client_id, report_type)
 GET     /report/:client_id/:product_id/:report_type  controllers.Application.getProductReport(client_id, product_id, report_type)
 
+# Su's testing 
+GET     /sudoku/product1              controllers.Application.prod1
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 

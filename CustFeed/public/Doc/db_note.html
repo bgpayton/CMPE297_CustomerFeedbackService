@@ -23,18 +23,24 @@ d\" : \"prod_24a\", \"review_text\": \"good\" } " <br/>
 <b>MongoDB</b> <a href="http://www.mongodb.org/display/DOCS/Overview+-+The+MongoDB+Interactive+Shell">example</a>
 <ol>
   <li>databases, collections, and indexes 
-  <li>mongoexport -d mydb -c things mongo1.json
-  <li>mongoimport -d mydb -c things mongo1.json
   <li>var cursor=db.custFeed.find(); <br/>
   while ( cursor.hasNext() ) printjson (cursor.next() );
   <li>show dbs
   <li>use custFeed 
   <li>show collections
   <li>db.reviews.drop()
-  <li>db.things.find().forEach(printjson);
-  <li>db.things.find({name:"mongo"}).forEach(printjson);
-  <li>db.things.find().forEach(printjson);
+  <li>db.reviews.find().forEach(printjson);
+  <li>db.reviews.find({product_id:"lenexa"}).forEach(printjson);
+  <li>db.reviews.find ( {product_id : 'lenexa'}).count() 
+  <li> db.reviews.find( {client_id:"client_svl"},{product_id:true})
+  <li>db.reviews.count( {client_id:"client_svl", product_id:"silicon" } )
+  <li>db.reviews.distinct ( "review.rating" )
+  <li>db.reviews.find( {product_id:"lenexa"}).sort( [['review_date', -1]])
+  </li><br/>
+  <li>db.reviews.find().forEach(printjson);
   <li>db.dropDataBase()
+  <li>mongoexport -d custFeed -c reviews reviews_1108.json
+  <li>mongoimport -d custFeed -c reviews reviews_1108.json
   <li><pre>
 > mr=db.runCommand ( {  
 ... ... "mapreduce" : "reviews",
@@ -57,6 +63,8 @@ d\" : \"prod_24a\", \"review_text\": \"good\" } " <br/>
 }
 > db[mr.result].distinct("_id")
 </pre>
+  <li><a href="http://kylebanker.com/blog/2009/12/mongodb-map-reduce-basics/">mapReduce</a> simple example
+  <li><a href="http://cookbook.mongodb.org/index.html">mongodb cookbook</a>
 </ol><br/>
 
 <h3>Git</h3>

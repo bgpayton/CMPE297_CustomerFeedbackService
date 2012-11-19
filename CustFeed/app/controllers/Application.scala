@@ -7,23 +7,33 @@ import play.api.mvc._
 import models.ReviewData
 
 object Application extends Controller {
+
+  val clientForm = Form(
+    tuple(
+      "client_id" -> nonEmptyText,
+      "contact" -> nonEmptyText, 
+      "home_url" -> nonEmptyText
+    )
+  )
   
-  /**
-   * Displays the welcome page.
-   */
   def index = Action {
     Ok(views.html.index())
   }
+
+  def addClient = Action { implicit request =>
+    clientForm.bindFromRequest.fold(
+      formWithErrors => BadRequest(views.html.addClient(formWithErrors)),
+      {case (client_id, contact, home_url) => Ok(views.html.addClientOk(client_id, contact, home_url))}
+    )
+  }
+
   
-  /**
-   * Displays a form for signing up a new client.
-   */
-  def clientForm = TODO
   
   /**
    * Adds a client with the given ID to the system.
+    def addClient(clientID: String) = TODO
+    def clientForm = TODO
    */
-  def addClient(clientID: String) = TODO
   
   /**
    * Gets the information for the given client.
@@ -57,9 +67,35 @@ object Application extends Controller {
    */
   def getReviews(clientID: String, productID: String) = Action { request =>
     val cursor = ReviewData.getReviews(clientID, productID)
-    cursor.foreach(review => println(review))
-    Ok("Get reviews request received")
+    
+/**
+ *   cursor.foreach(review => println(review))
+ */
+   var outString=0
+   var outString2= ReviewData.get_pid()  + "\n\n"
+
+   var outString3="debug"
+//   var outString3=ReviewData.get_productID() // get function 
+    cursor.foreach(
+       review => { 
+          outString += 1 ; 
+          outString2 += outString + ": " + review.product_id ;
+          outString2 += "_id= " + review._id ;
+          outString2 += " client_id= " + review.client_id ;
+          outString2 += "\n"; 
+       } 
+    )
+    Ok("Get reviews request received " + outString + "\n" +  outString3 + "\n" + outString2)
   }
+
+  def prod1 = Action {
+
+    var cid= ReviewData.get_pid2() 
+    Ok(views.html.client1( cid ))
+  }
+
+
+
   
   /**
    * Posts a rating of a given existing review as "negative".

@@ -1,0 +1,37 @@
+@(clientForm: Form[(String,String,String)])
+
+@import helper._
+
+@main(title = "Add Client ") {
+
+    <h1>Add Client:</h1>
+
+    @form(action = routes.Application.addClient, args = 'id -> "clientform") {
+
+        <dl class="error" id="client_id">
+          <dt><label for="contact"><label>client_id:</label></dt>
+          <dd><input type="text" name="client_id" id="client_id" 
+                     placeholder="some org"></dd>
+        </dl>
+
+        <dl class="error" id="contact">
+          <dt><label for="contact"><label>Contact:</label></dt>
+          <dd><input type="text" name="contact" id="contact" 
+                     placeholder="someone"></dd>
+        </dl>
+
+        <dl class="error" id="home_url">
+          <dt><label for="home_url"><label>HOME URL:</label></dt>
+          <dd><input type="text" name="home_url" id="home_url" 
+                     placeholder="http://w3.svl.ibm.com"></dd>
+        </dl>
+
+       <br/><br/>
+
+        <p class="buttons">
+            <input type="submit" id="submit">
+        <p>
+
+    }
+
+}
