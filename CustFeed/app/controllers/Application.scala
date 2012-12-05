@@ -5,6 +5,7 @@ import play.api.data._
 import play.api.data.Forms._
 import play.api.mvc._
 import models.ReviewData
+import play.api.libs.json._
 
 object Application extends Controller {
 
@@ -53,18 +54,51 @@ object Application extends Controller {
   /**
    * Posts a new review for the given client and product.
    */
-  def postReview(clientID: String, productID: String) = Action(parse.json) { request =>
+  def postReview(clientID: String, productID: String) = Action(parse.json) { 
+   request =>
     (request.body \ "review_text").asOpt[String].map { review_text => 
-      ReviewData.addReview(clientID, productID, review_text)
-      Ok("Review received")
+      
+      var mylog= " clientID=" + clientID + " productID= " + productID + " \n"
+      mylog += request.body
+      (request.body \ "rating2").asOpt[String].map { rating2 =>
+         mylog += "\nrating=" + rating2  + "\n" 
+
+         (request.body \ "path").asOpt[String].map { path =>
+             mylog += "\npath=" + path  + "\n" 
+             ReviewData.addReview5(clientID, productID, review_text, rating2, path )
+         }.getOrElse {
+             ReviewData.addReview4(clientID, productID, review_text, rating2 )
+         }
+         Ok("Review received\n" + mylog + " \n")
+        
+      }.getOrElse {
+         ReviewData.addReview(clientID, productID, review_text )
+         Ok("Review received\n no rating2\n" + mylog + " \n")
+      }
     }.getOrElse {
-      BadRequest("Missing parameter [review_text]")
+      BadRequest("Missing parameter [review_text]\n")
     }
   }
   
-  /**
-   * Gets all reviews for the given client and product.
-   */
+  def getReviewLast(clientID: String, productID: String) = Action { request =>
+    val cursor2=ReviewData.getReviewsLast(clientID, productID)
+    var mylog = cursor2.toString
+    Ok ( "last=" +  mylog )
+  }
+
+  def getReviewCount(clientID: String, productID: String) = Action { request =>
+    val cursor = ReviewData.getReviews(clientID, productID)
+    var mysize= cursor.size; 
+    var mylog  = "clientID=" + clientID
+    mylog  += " productID=" + productID
+
+    val cursor2=ReviewData.getReviewsLast(clientID, productID)
+    mylog += "\n" + cursor2.toString()
+
+    Ok ( mylog + "\n" + "size=" + mysize + "\n"  )
+  }
+
+
   def getReviews(clientID: String, productID: String) = Action { request =>
     val cursor = ReviewData.getReviews(clientID, productID)
     
@@ -88,14 +122,35 @@ object Application extends Controller {
     Ok("Get reviews request received " + outString + "\n" +  outString3 + "\n" + outString2)
   }
 
-  def prod1 = Action {
+  def welcome = Action { request =>
+    val was= ReviewData.addOneCount() 
+    val ip=request.remoteAddress
+    var cid= ReviewData.addOne(ip) 
+    val current= ReviewData.addOneCount() 
+    Ok( "was= " + was + " from=" + ip + " now=" + current + "\n"  )
+  }
 
+  def welcomeCount = Action { 
+    var cid= ReviewData.addOneCount() 
+    Ok( "count= " + cid )
+  }
+
+
+  def prod1 = Action {
     var cid= ReviewData.get_pid2() 
     Ok(views.html.client1( cid ))
   }
 
+  def prod3 = Action {
+    var cid= ReviewData.get_pid3() 
+    Ok(views.html.client1( cid ))
+  }
 
 
+  def getClient(clientID: String) = Action { 
+    var cid= ReviewData.get_pid4(clientID ) 
+    Ok(views.html.clientOne( cid ))
+  }
   
   /**
    * Posts a rating of a given existing review as "negative".

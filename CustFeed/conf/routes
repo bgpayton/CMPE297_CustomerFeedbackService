@@ -31,6 +31,15 @@ GET     /report/:client_id/:product_id/:report_type  controllers.Application.get
 
 # Su's testing 
 GET     /sudoku/product1              controllers.Application.prod1
+GET     /sudoku/product3              controllers.Application.prod3
+GET     /sudoku/:client_id/:product_id/count  controllers.Application.getReviewCount(client_id, product_id )
+GET     /sudoku/:client_id/:product_id/last  controllers.Application.getReviewLast(client_id, product_id )
+GET     /sudoku/:client_id            controllers.Application.getClient(client_id )
+
+GET     /Welcome              controllers.Application.welcome
+GET     /WelcomeCount         controllers.Application.welcomeCount
+
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
