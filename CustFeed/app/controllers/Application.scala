@@ -3,12 +3,64 @@ package controllers
 import play.api._
 import play.api.data._
 import play.api.data.Forms._
-import play.api.mvc._
-import models.ReviewData
 import play.api.libs.json._
+import play.api.mvc._
+
+import models._
+import views._
 
 object Application extends Controller {
-
+  
+  /**
+   * Displays the welcome page.
+   */
+  def index = Action {
+    Ok(views.html.index())
+  }
+  
+  //
+  //  Authentication
+  //
+  
+  val loginForm = Form(
+    tuple(
+      "email" -> text,
+      "password" -> text
+    ) verifying ("Invalid email or password", result => result match {
+      case (email, password) => User.authenticate(email, password).isDefined
+    })
+  )
+  
+  /**
+   *  Login page
+   */
+  def login = Action { implicit request =>
+    Ok(html.login(loginForm))
+  }
+  
+  /**
+   *  Login form submission
+   */
+  def authenticate = Action { implicit request =>
+    loginForm.bindFromRequest.fold(
+      formWithErrors => BadRequest(html.login(formWithErrors)),
+      user => Redirect(routes.Application.index).withSession("email" -> user._1)
+    )
+  }
+  
+  /**
+   *  Logout and cleanup
+   */
+  def logout = Action {
+    Redirect(routes.Application.login).withNewSession.flashing(
+      "success" -> "You've been logged out"
+    )
+  }
+  
+  //
+  //  Client
+  //
+  
   val clientForm = Form(
     tuple(
       "client_id" -> nonEmptyText,
@@ -17,18 +69,12 @@ object Application extends Controller {
     )
   )
   
-  def index = Action {
-    Ok(views.html.index())
-  }
-
   def addClient = Action { implicit request =>
     clientForm.bindFromRequest.fold(
       formWithErrors => BadRequest(views.html.addClient(formWithErrors)),
       {case (client_id, contact, home_url) => Ok(views.html.addClientOk(client_id, contact, home_url))}
     )
   }
-
-  
   
   /**
    * Adds a client with the given ID to the system.
