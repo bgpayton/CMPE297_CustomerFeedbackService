@@ -6,11 +6,13 @@
 GET     /                           controllers.Application.index
 
 # Administration API
+GET     /admin/login				controllers.Application.login
+POST    /admin/login				controllers.Application.authenticate
+GET     /admin/logout				controllers.Application.logout
 
 GET     /admin/client              controllers.Application.addClient
-
 GET     /admin/client/:client_id   controllers.Application.client(client_id)
-# POST    /admin/client/:client_id   controllers.Application.addClient(client_id)
+#POST    /admin/client/:client_id   controllers.Application.addClient(client_id)
 PUT     /admin/client/:client_id   controllers.Application.editClient(client_id)
 
 DELETE  /admin/client/:client_id   controllers.Application.removeClient(client_id)

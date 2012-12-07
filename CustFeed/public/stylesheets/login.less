@@ -1,0 +1,298 @@
+/* Palette color codes */
+
+.primary-background-1 { background-color: #0D58A6 }
+.primary-background-2 { background-color: #26517C }
+.primary-background-3 { background-color: #04376C }
+.primary-background-4 { background-color: #4188D2 }
+.primary-background-5 { background-color: #689CD2 }
+
+.complement-background-1 { background-color: #FF9900 }
+.complement-background-2 { background-color: #BF8630 }
+.complement-background-3 { background-color: #A66300 }
+.complement-background-4 { background-color: #FFB240 }
+.complement-background-5 { background-color: #FFC773 }
+
+.primary-color-1 { color: #0D58A6 }
+.primary-color-2 { color: #26517C }
+.primary-color-3 { color: #04376C }
+.primary-color-4 { color: #4188D2 }
+.primary-color-5 { color: #689CD2 }
+
+.primary-complement-1 { color: #FF9900 }
+.primary-complement-2 { color: #BF8630 }
+.primary-complement-3 { color: #A66300 }
+.primary-complement-4 { color: #FFB240 }
+.primary-complement-5 { color: #FFC773 }
+
+/* end */
+
+body {
+	background:white;
+	border:0;
+	color:#666;
+	font:75%/1.33 Tahoma, sans-serif;
+	margin:0; 
+	padding:0;
+	text-align:left;
+	}
+	
+h1 {
+	color:#26517C;
+	font-size:250%;
+	margin:2em 1em 1em 1em;
+	}
+	
+h2 {
+	font-size:100%;
+	margin:0;
+	}
+	
+p {
+	margin:0.5em 0;
+	}
+	
+p.nomargin {
+	margin:0;
+	}
+	
+p.note {
+	clear:both;
+	}
+	
+a {
+	color:#689CD2;
+	font-size:120%;
+	}
+	
+a.links {
+	color:#04376C;
+	font-size:110%;
+	}
+	
+dd {
+	padding-bottom:.2em;
+	}
+	
+ul {
+	border:0;
+	margin:.2em 2% 0 2%;
+	padding:0;
+	}
+	
+.cleaner {
+	clear:both;
+	}
+	
+.color-table {
+	border-collapse:collapse;
+	border:none;
+	border-spacing:0;
+	font-size:100%;
+	margin:2em 2em 5em;
+	}
+	
+.color-table th {
+	border: none;
+	font-size:110%;
+	padding:0 1em 0 0;
+	text-align:right;
+	vertical-align: middle;
+	}
+	
+.color-table td.sample {
+	border: 1px solid white;
+	font-size:90%;
+	height:8em;
+	padding:10px;
+	text-align:center;
+	vertical-align:middle;
+	white-space:nowrap;
+	width:10em;
+	}
+	
+.color-table.small td.sample {
+	border:none;
+	height:4em;
+	padding:0;
+	width:4em;
+	}
+	
+.color-table .white { 
+	color:white;
+	margin-bottom:0.2em;
+	}
+	
+.color-table .black {
+	color:black;
+	margin-top:0.2em;
+	}
+	
+.error {
+	.primary-color-3;
+	.complement-background-4;
+	display:inline;
+	padding:.4em;
+	}
+	
+.float-left {
+	float:left;
+	}
+	
+.form-title {
+	border-style:solid;
+	border-color:white;
+	}
+	
+.sel {
+	color:#26517C;
+	background-color:#689CD2;
+	}
+	
+.ttl {
+	color:#A66300;
+	}
+	
+hr {
+	border:none;
+	border-bottom:1px solid silver;
+	}
+	
+#topbg {
+	.primary-background-4;
+	border:0;
+	height:12.35em;
+	margin:0;
+	opacity:.5;
+	position: relative;
+	z-index:1;
+	}
+	
+#header {
+	.primary-background-4;
+	heigth:100%;
+	position: absolute;
+	margin-top:1.5em;
+	margin-left:2%;
+	margin-bottom:0;
+	margin-right:2%;
+	left:0;
+	top:0;
+	width:96%;
+	z-index:4;
+	}
+	
+#hdr-overlay {
+	.primary-background-2;
+	float:right;
+	height:2em;
+	margin:.5em;
+	opacity:.5;
+	position: absolute;
+	right:0;
+	top:0;
+	width:61%;
+	}
+	
+#hdr-box1 {
+	.primary-background-2;
+	float:left;
+	height:2em;
+	margin:.5em;
+	width:8%;
+	}
+	
+#hdr-box2 {
+	.primary-background-3;
+	float:left;
+	height:2em;
+	margin:.5em;
+	width:8%;
+	}
+	
+#hdr-box3 {
+	.primary-background-1;
+	float:left;
+	height:2em;
+	margin:.5em;
+	width:8%;
+	}
+	
+#hdr-box4 {
+	.primary-background-5;
+	float:left;
+	height:2em;
+	margin:.5em;
+	width:8%;
+	}
+	
+#link li {
+	color:#FF9900;
+	list-style-type:square;
+	}
+	
+#login-message {
+	margin-top:.4em;
+	margin-left:16em;
+	display:block;
+	}
+	
+#menu li {
+	.primary-background-3;
+	display: inline;
+	float:left;
+	list-style-type:none;
+	margin:0 .25% 0 0;
+	padding-top:.2em;
+	padding-bottom:.3em;
+	text-align:center;
+	width:19.75%;
+	}
+	
+#content {
+	heigth:100%;
+	position: absolute;
+	margin-top:1.5em;
+	margin-left:2%;
+	margin-bottom:0;
+	margin-right:2%;
+	left:0;
+	width:96%;
+	}
+	
+#left {
+	float:left;
+	width:37%;
+	margin:1em 0 1em 1em;
+	display:block;
+	padding:0 1em 0 0;
+	border-right-style:dotted;
+	border-color:#04376C;
+	border-width:2px;
+	}
+	
+#right {
+	float:left;
+	width:58%;
+	margin-top:1em;
+	margin-left:1%;
+	display:block;
+	}
+	
+#loginbutton {
+	.complement-background-1;
+	}
+	
+#ico {
+	float:left;
+	width:10em;
+	margin-right:1em;
+	padding:.6em 2em .5em 0;	
+	}
+	
+#footer {
+	.primary-background-3;
+	font-size:80%;
+	padding:1em;
+	text-align:center;
+	text-color:#689CD2;
+	}
