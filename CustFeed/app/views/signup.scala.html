@@ -27,7 +27,7 @@
 			<li><a href="#"><span></span>Ipsum</a></li>
 			<li><a href="#"><span></span>Dolor</a></li>
 			<li><a href="#"><span></span>Sit amet</a></li>
-			<li><a href="#"><span></span>Aliquip</a></li>
+			<li><a href="@routes.Application.login"><span></span>Login</a></li>
 		</ul>
 		
 		<div id="content">
@@ -89,22 +89,30 @@
 						<fieldset>
 							<legend>Contact information</legend>
 							
-							@select(
-								signupForm("country"), 
-								options = options(Countries.list),
-								'_default -> "--- Choose a country ---",
-								'_label -> "Country",
-								'_error -> signupForm("profile.country").error.map(_.withMessage("Please select your country"))
-							)
-							
 							@textarea(
 								signupForm("address"), 
 								'_label -> "Address", 'cols -> 50
 							)
 							
+							@select(
+								signupForm("country"), 
+								options = options(Countries.list),
+								'_default -> "--- Choose a country ---",
+								'_label -> "Country",
+								'_error -> signupForm("country").error.map(_.withMessage("Please select your country"))
+							)
+							
+							@select(
+								signupForm("template"), 
+								options = options(Templates.list),
+								'_default -> "--- Choose a review template ---",
+								'_label -> "Review Template",
+								'_error -> signupForm("template").error.map(_.withMessage("Please select your review template"))
+							)
+							  
 							@inputText(
 								signupForm("age"), 
-								'_label -> "Age", 'class -> "mini",
+								'_label -> "Rentention age", 'class -> "mini",
 								'_showConstraints -> false
 							)
 							  
@@ -119,7 +127,7 @@
 						</fieldset>
 						
 						<div class="actions">
-							<input type="submit" class="btn primary" value="Sign Up">
+							<input type="submit" class="button-primary" value="Sign Up">
 							<a href="@routes.Application.index" class="btn">Cancel</a>
 						</div>
 					</div>

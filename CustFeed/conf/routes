@@ -3,23 +3,22 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
+GET     /                                controllers.Application.index
 
 # Administration API
-GET     /admin/login				controllers.Application.login
-POST    /admin/login				controllers.Application.authenticate
-GET     /admin/logout				controllers.Application.logout
+GET     /admin/login                     controllers.Application.login
+POST    /admin/login                     controllers.Application.authenticate
+GET     /admin/logout                    controllers.Application.logout
 
-GET     /admin/signup				controllers.SignUp.form
-GET     /admin/signup/test			controllers.SignUp.test
-POST    /admin/signup				controllers.SignUp.submit
+GET     /admin/signup                    controllers.SignUp.form
+GET     /admin/signup/test               controllers.SignUp.test
+GET     /admin/signup/user/:emailID      controllers.SignUp.user(emailID)
+GET     /admin/signup/update/:emailID    controllers.SignUp.update(emailID)
+POST    /admin/signup                    controllers.SignUp.submit
 
-GET     /admin/client              controllers.Application.addClient
-GET     /admin/client/:client_id   controllers.Application.client(client_id)
-#POST    /admin/client/:client_id   controllers.Application.addClient(client_id)
-PUT     /admin/client/:client_id   controllers.Application.editClient(client_id)
-
-DELETE  /admin/client/:client_id   controllers.Application.removeClient(client_id)
+GET     /admin/client/:clientID          controllers.Application.client(clientID)
+PUT     /admin/client/:clientID          controllers.Application.editClient(clientID)
+DELETE  /admin/client/:clientID          controllers.Application.removeClient(clientID)
 
 # Operational API
 
