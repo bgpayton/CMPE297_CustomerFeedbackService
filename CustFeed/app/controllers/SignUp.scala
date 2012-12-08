@@ -5,6 +5,7 @@ import play.api.data._
 import play.api.data.Forms._
 import play.api.mvc._
 
+import anorm._
 import views._
 import models._
 
@@ -30,18 +31,19 @@ object SignUp extends Controller {
 			
 			"country" -> optional(text),
 			"address" -> optional(text),
+			"template" -> optional(text),
 			"age" -> optional(number(min = 18, max = 100)),
 			"accept" -> checked("You must accept the conditions")
 		)
 		
 		// Binding: Create a User from the mapping result
 		{
-			(email, name, passwords, country, address, age, _) => 
-			User(email, name, passwords._1, country, address, age) 
+			(email, name, passwords, country, address, template, age, _) => 
+			User(NotAssigned, email, name, passwords._1, country, address, template, age) 
 		} 
 		{
 			// Unbinding: Create the mapping values from an existing User value
-			user => Some(user.email, user.name, (user.password, ""), user.country, user.address, user.age, false)
+			user => Some(user.email, user.name, (user.password, ""), user.country, user.address, user.template, user.age, false)
 		}.verifying(
 			// Add an additional constraint: The name must not be taken (you could do an SQL request here)
 			"This name is not available",
@@ -60,16 +62,26 @@ object SignUp extends Controller {
 	 *  Display test
 	 */
 	def test = Action {
-		val existingUser = User("fake@gmail.com", "fakeuser", "secret", Some("France"), Some("555 Bailey Ave"), Some(30))
+		val existingUser = User(NotAssigned, "fake@gmail.com", "fakeuser", "secret", Some("France"), Some("555 Bailey Ave"), Some("Yes/No"), Some(30))
 		Ok(html.signup(signupForm.fill(existingUser)))
 	}
 	
 	/**
 	 *  Display user
 	 */
-	def user = Action {
-		val existingUser = User("fake@gmail.com", "fakeuser", "secret", Some("France"), Some("555 Bailey Ave"), Some(30))
-		Ok(html.signup(signupForm.fill(existingUser)))
+	def user(emailID: String) = Action { implicit request =>
+          val u = User.findByEmail(emailID)
+          val existingUser = u.getOrElse(User(NotAssigned, "fake@gmail.com", "fakeuser", "secret", Some("France"), Some("555 Bailey Ave"), Some("Yes/No"), Some(30)))
+          Ok(html.signupSummary(existingUser))
+	}
+	
+	/**
+	 *  Update user
+	 */
+	def update(emailID: String) = Action { implicit request =>
+          val u = User.findByEmail(emailID)
+          val existingUser = u.getOrElse(User(NotAssigned, "fake@gmail.com", "fakeuser", "secret", Some("France"), Some("555 Bailey Ave"), Some("Yes/No"), Some(30)))
+          Ok(html.signup(signupForm.fill(existingUser)))
 	}
 	
 	/**

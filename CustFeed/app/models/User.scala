@@ -6,11 +6,13 @@ import play.api.Play.current
 import anorm._
 import anorm.SqlParser._
 
-case class User(email: String, 
+case class User(clientID: Pk[Long],
+				email: String, 
 				name: String,
 				password: String,
 				country: Option[String],
 				address: Option[String],
+				template: Option[String],
 				age: Option[Int])
 
 object User {
@@ -21,13 +23,15 @@ object User {
    * Parse a User from a ResultSet
    */
   val simple = {
+    get[Pk[Long]]("user.clientID") ~
     get[String]("user.email") ~
     get[String]("user.name") ~
     get[String]("user.password") ~
     get[String]("user.country") ~
     get[String]("user.address") ~
+    get[String]("user.template") ~
     get[Int]("user.age") map {
-      case email~name~password~country~address~age => User(email, name, password, Some(country), Some(address), Some(age))
+      case clientID~email~name~password~country~address~template~age => User(clientID, email, name, password, Some(country), Some(address), Some(template), Some(age))
     }
   }
   
@@ -38,9 +42,7 @@ object User {
    */
   def findByEmail(email: String): Option[User] = {
     DB.withConnection { implicit connection =>
-      SQL("select * from user where email = {email}").on(
-        'email -> email
-      ).as(User.simple.singleOpt)
+      SQL("select * from user where email = {email}").on('email -> email).as(User.simple.singleOpt)
     }
   }
   
@@ -75,30 +77,37 @@ object User {
    */
   def create(user: User): User = {
     DB.withConnection { implicit connection =>
+      val clientID: Long = user.clientID.getOrElse {
+        SQL("select next value for clientID_seq").as(scalar[Long].single)
+      }
+	
       SQL(
         """
           insert into user values (
-            {email}, {name}, {password}, {country}, {address}, {age}
+            {clientID}, {email}, {name}, {password}, {country}, {address}, {template}, {age}
           )
         """
       ).on(
+		'clientID -> clientID,
 		'email -> user.email,
 		'name -> user.name,
 		'password -> user.password,
-		'country -> { user.country match {
-			case Some(user.country) => user.country
+		'country -> {user.country match {
+			case Some(_) => user.country
 			case None => ""}},
-		'address -> { user.address match {
-			case Some(user.address) => user.address
+		'address -> {user.address match {
+			case Some(_) => user.address
 			case None => ""}},
-		'age -> { user.age match {
-			case Some(user.age) => user.age
+		'template -> {user.template match {
+			case Some(_) => user.template
+			case None => ""}},
+		'age -> {user.age match {
+			case Some(_) => user.age
 			case None => 0}}
       ).executeUpdate()
       
-      user
+      user.copy(clientID = Id(clientID))
       
     }
   }
-
 }
