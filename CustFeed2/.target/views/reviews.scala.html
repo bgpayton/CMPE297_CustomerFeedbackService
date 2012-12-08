@@ -1,6 +1,6 @@
 @(reviews: List[models.Review], activeSort: String)
 
-@main("Welcome to Play 2.0") {
+@main("Welcome to the Customer Feedback application") {
   <div class="row">
     <div class="span12">
       <h2>Available reviews</h2>
@@ -11,6 +11,10 @@
           <li @if(activeSort == "-client_id"){class="active"}><a href="@routes.Application.index?sort=-client_id">-client id</a></li>
           <li @if(activeSort == "product_id"){class="active"}><a href="@routes.Application.index?sort=product_id">product id</a></li>
           <li @if(activeSort == "-product_id"){class="active"}><a href="@routes.Application.index?sort=-product id">-product id</a></li>
+          <li @if(activeSort == "reviewer_id"){class="active"}><a href="@routes.Application.index?sort=reviewer_id">reviewer id</a></li>
+          <li @if(activeSort == "-reviewer_id"){class="active"}><a href="@routes.Application.index?sort=-reviewer id">-reviewer id</a></li>
+          <li @if(activeSort == "review_rating"){class="active"}><a href="@routes.Application.index?sort=review_rating">review rating</a></li>
+          <li @if(activeSort == "-review_rating"){class="active"}><a href="@routes.Application.index?sort=-review_rating">-review rating</a></li>
           <li @if(activeSort == "review_summary"){class="active"}><a href="@routes.Application.index?sort=review_summary">review summary</a></li>
           <li @if(activeSort == "-review_summary"){class="active"}><a href="@routes.Application.index?sort=-review_summary">-review summary</a></li>
           <li @if(activeSort == "review_date"){class="active"}><a href="@routes.Application.index?sort=review_date">review date</a></li>
@@ -23,7 +27,7 @@
       } else {
       <ul>
       @reviews.map { review =>
-        <li><a href="@routes.Application.showEditForm(review.id.get.stringify)">@review.client_id @review.product_id @review.review_summary</a> - <a href="@routes.Application.delete(review.id.get.stringify)" class="delete">delete</a></li>
+        <li><a href="@routes.Application.showEditForm(review.id.get.stringify)">@review.client_id @review.product_id @review.reviewer_id @review.review_rating @review.review_summary</a> - <a href="@routes.Application.delete(review.id.get.stringify)" class="delete">delete</a></li>
       }
       </ul>
       }

@@ -4,6 +4,27 @@
 
 # Home page
 GET     /                           controllers.Application.index
+
+# Administration API
+GET     /admin/login                controllers.Application.login
+POST    /admin/login                controllers.Application.authenticate
+GET     /admin/logout               controllers.Application.logout
+
+#GET     /admin/client              controllers.Application.addClient
+#GET     /admin/client/:client_id   controllers.Application.client(client_id)
+# POST    /admin/client/:client_id   controllers.Application.addClient(client_id)
+#PUT     /admin/client/:client_id   controllers.Application.editClient(client_id)
+# DELETE  /admin/client/:client_id   controllers.Application.removeClient(client_id)
+
+# Operational API
+
+#GET     /review/:client_id/:product_id          controllers.Application.getReviews(client_id, product_id)
+#POST    /review/:client_id/:product_id          controllers.Application.postReview(client_id, product_id)
+#POST    /review/rating/:review_id/negative      controllers.Application.postReviewRatingNegative(review_id)
+#POST    /review/rating/:review_id/positive      controllers.Application.postReviewRatingPositive(review_id)
+#POST    /review/rating/:review_id/inappropriate controllers.Application.postReviewRatingInappropriate(review_id)
+
+#GET     /review/:id                controllers.Application.getReview(id)
 #GET     /review/:client_id/:product_id          controllers.Application.getReviews(client_id, product_id)
 GET     /reviews/new               controllers.Application.showCreationForm
 POST    /reviews/new               controllers.Application.create
@@ -13,6 +34,11 @@ DELETE  /reviews/:id               controllers.Application.delete(id)
 POST    /reviews/:id/attachments   controllers.Application.saveAttachment(id)
 GET     /attachments/:id            controllers.Application.getAttachment(id)
 DELETE  /attachments/:id            controllers.Application.removeAttachment(id)
+
+# Analytics API
+
+#GET     /report/:client_id/:report_type  controllers.Application.getSummaryReport(client_id, report_type)
+#GET     /report/:client_id/:product_id/:report_type  controllers.Application.getProductReport(client_id, product_id, report_type)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

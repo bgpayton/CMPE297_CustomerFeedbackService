@@ -3,16 +3,18 @@ package controllers
 import models._
 import org.joda.time._
 import play.api._
+import play.api.data._
+import play.api.data.Forms._
 import play.api.mvc._
 import play.api.Play.current
 import play.modules.reactivemongo._
 import scala.concurrent.{ExecutionContext, Future}
-
 import reactivemongo.api._
 import reactivemongo.api.gridfs._
 import reactivemongo.bson._
 import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONDocumentWriter
 import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONReaderHandler
+import play.api.data.Form
 
 object Application extends Controller with MongoController {
   val db = ReactiveMongoPlugin.db
@@ -123,6 +125,41 @@ object Application extends Controller with MongoController {
         collection.remove(BSONDocument("_id" -> new BSONObjectID(id)))
       }.map(_ => Ok).recover { case _ => InternalServerError}
     }
+  }
+
+    val loginForm = Form(
+    tuple(
+      "email" -> text,
+      "password" -> text
+    ) verifying ("Invalid email or password", result => result match {
+      case (email, password) => User.authenticate(email, password).isDefined
+    })
+  )
+  
+  /**
+   *  Login page
+   */
+  def login = Action { implicit request =>
+    Ok(views.html.login(loginForm))
+  }
+  
+  /**
+   *  Login form submission
+   */
+  def authenticate = Action { implicit request =>
+    loginForm.bindFromRequest.fold(
+      formWithErrors => BadRequest(views.html.login(formWithErrors)),
+      user => Redirect(routes.Application.index).withSession("email" -> user._1)
+    )
+  }
+  
+  /**
+   *  Logout and cleanup
+   */
+  def logout = Action {
+    Redirect(routes.Application.login).withNewSession.flashing(
+      "success" -> "You've been logged out"
+    )
   }
 
   // save the uploaded file as an attachment of the review with the given id
