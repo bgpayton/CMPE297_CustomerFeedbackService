@@ -61,27 +61,6 @@ object Application extends Controller {
   //  Client
   //
   
-  val clientForm = Form(
-    tuple(
-      "client_id" -> nonEmptyText,
-      "contact" -> nonEmptyText, 
-      "home_url" -> nonEmptyText
-    )
-  )
-  
-  def addClient = Action { implicit request =>
-    clientForm.bindFromRequest.fold(
-      formWithErrors => BadRequest(views.html.addClient(formWithErrors)),
-      {case (client_id, contact, home_url) => Ok(views.html.addClientOk(client_id, contact, home_url))}
-    )
-  }
-  
-  /**
-   * Adds a client with the given ID to the system.
-    def addClient(clientID: String) = TODO
-    def clientForm = TODO
-   */
-  
   /**
    * Gets the information for the given client.
    */
@@ -96,6 +75,10 @@ object Application extends Controller {
    * Removes the client with the given ID from the system.
    */
   def removeClient(clientID: String) = TODO
+  
+  //
+  //  Reviews
+  //
   
   /**
    * Posts a new review for the given client and product.
