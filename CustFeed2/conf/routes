@@ -22,14 +22,11 @@ POST    /admin/signup               controllers.SignUp.submit
 
 # Operational API
 
-#GET     /review/:client_id/:product_id          controllers.Application.getReviews(client_id, product_id)
-#POST    /review/:client_id/:product_id          controllers.Application.postReview(client_id, product_id)
-#POST    /review/rating/:review_id/negative      controllers.Application.postReviewRatingNegative(review_id)
-#POST    /review/rating/:review_id/positive      controllers.Application.postReviewRatingPositive(review_id)
-#POST    /review/rating/:review_id/inappropriate controllers.Application.postReviewRatingInappropriate(review_id)
+GET     /review/:id                controllers.Application2.getReview(id)
+GET     /reviews/:client_id/:product_id          controllers.Application2.getReviews(client_id, product_id)
+POST    /reviews/:client_id/:product_id          controllers.Application2.addReview(client_id, product_id)
+POST    /reviews/feedback/:review_id             controllers.Application2.addReviewFeedback(review_id)
 
-#GET     /review/:id                controllers.Application.getReview(id)
-#GET     /review/:client_id/:product_id          controllers.Application.getReviews(client_id, product_id)
 GET     /reviews/new               controllers.Application.showCreationForm
 POST    /reviews/new               controllers.Application.create
 GET     /reviews/:id               controllers.Application.showEditForm(id)

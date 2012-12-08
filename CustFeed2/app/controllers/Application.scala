@@ -1,20 +1,27 @@
 package controllers
 
-import models._
+import scala.concurrent.ExecutionContext
+import scala.concurrent.Future
+
 import org.joda.time._
+
+import models._
 import play.api._
-import play.api.data._
-import play.api.data.Forms._
-import play.api.mvc._
 import play.api.Play.current
+import play.api.data._
+import play.api.data.Form
+import play.api.data.Forms._
+import play.api.libs.json._
+import play.api.libs.json.Json
+import play.api.mvc._
 import play.modules.reactivemongo._
-import scala.concurrent.{ExecutionContext, Future}
+//import play.modules.reactivemongo.PlayBsonImplicits._
 import reactivemongo.api._
 import reactivemongo.api.gridfs._
 import reactivemongo.bson._
+//import reactivemongo.bson.handlers.DefaultBSONHandlers._
 import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONDocumentWriter
 import reactivemongo.bson.handlers.DefaultBSONHandlers.DefaultBSONReaderHandler
-import play.api.data.Form
 
 object Application extends Controller with MongoController {
   val db = ReactiveMongoPlugin.db

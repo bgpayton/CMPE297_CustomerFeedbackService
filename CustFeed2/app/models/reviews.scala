@@ -6,6 +6,8 @@ import play.api.data._
 import play.api.data.Forms._
 import play.api.data.format.Formats._
 import play.api.data.validation.Constraints._
+import play.api.libs.json._
+import play.api.libs.functional.syntax._
 
 import reactivemongo.bson._
 import reactivemongo.bson.handlers._
@@ -22,6 +24,7 @@ case class Review(
 )
 
 object Review {
+
   implicit object ReviewBSONReader extends BSONReader[Review] {
     def fromBSON(document: BSONDocument) :Review = {
       val doc = document.toTraversable
@@ -50,6 +53,7 @@ object Review {
         "review_date" -> BSONDateTime(review.review_date.getMillis()))
     }
   }
+  
   val form = Form(
     mapping(
       "id" -> optional(of[String] verifying pattern(
