@@ -85,3 +85,35 @@ object Review {
       )))
     })
 }
+
+case class ReviewFeedback(
+  id: Option[BSONObjectID],
+  review_id: String,
+  user_id: String,
+  feedback: Integer
+)
+
+object ReviewFeedback {
+  implicit object ReviewFeedbackBSONReader extends BSONReader[ReviewFeedback] {
+    def fromBSON(document: BSONDocument) : ReviewFeedback = {
+      val doc = document.toTraversable
+      ReviewFeedback(
+        doc.getAs[BSONObjectID]("_id"),
+        doc.getAs[BSONString]("review_id").get.value,
+        doc.getAs[BSONString]("user_id").get.value,
+        doc.getAs[BSONInteger]("feedback").get.value
+      )
+    }
+  }
+  implicit object ReviewFeedbackBSONWriter extends BSONWriter[ReviewFeedback] {
+    def toBSON(reviewFeedback: ReviewFeedback) = {
+      BSONDocument(
+        "_id" -> reviewFeedback.id.getOrElse(BSONObjectID.generate),
+        "review_id" -> BSONString(reviewFeedback.review_id),
+        "user_id" -> BSONString(reviewFeedback.user_id),
+        "feedback" -> BSONInteger(reviewFeedback.feedback)
+      )
+    }
+  }
+}
+     
