@@ -35,11 +35,14 @@ GET     /sudoku/product3              controllers.Application.prod3
 GET     /sudoku/:client_id/:product_id/count  controllers.Application.getReviewCount(client_id, product_id )
 GET     /sudoku/:client_id/:product_id/last  controllers.Application.getReviewLast(client_id, product_id )
 GET     /sudoku/:client_id            controllers.Application.getClient(client_id )
+POST    /sudoku/:client_id/:product_id/access   controllers.Application.postAccess(client_id, product_id)
+GET     /sysinfo                      controllers.Application.getSysINFO
+GET     /Doc/*file               controllers.Assets.at(path="/public/Doc", file)
 
-GET     /Welcome              controllers.Application.welcome
-GET     /WelcomeCount         controllers.Application.welcomeCount
+
+# GET     /Welcome              controllers.Application.welcome
+# GET     /WelcomeCount         controllers.Application.welcomeCount
 
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
 

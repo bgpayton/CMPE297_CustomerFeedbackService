@@ -1,33 +1,31 @@
-@(cid: Array[ReviewData] )
+@(cid: List[ProductReport] , log:String   )
 
 @import models.ReviewData
 
 @main(title = "testing") {
-    
-    
-</ol>
 
-    <br/><br/>
+
    <table border='1'>
      <tr>
-       <th>client_id</th>
-       <th>product_id</th>
-       <th>rating</th>
-       <th>path</th>
+       <th>Product_id</th>
+       <th>Total count</th>
+       <th>Rating Summary </th>
     </tr>
     @cid.map { c =>
       <tr>
-         <td>@c.client_id</td>
-         <td>@c.product_id</td>
-         <td>@c.rating2</td>
-         <td>@c.path</td>
+         <td>@c.name</td>
+         <td align='right'>@c.total</td>
+         <td>
+             @c.rating.map { r => 
+               @r.name:@r.count   &nbsp &nbsp
+             }
+
+          </td>
       </tr>
     }
    </table>
 
 
-    <br/><br/>
-
-
+  @log
     
 }

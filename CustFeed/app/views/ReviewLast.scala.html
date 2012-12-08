@@ -1,0 +1,20 @@
+@(cid: Array[ReviewData] )
+
+@import models.ReviewData
+
+@main(title = "testing") {
+    
+<h4> Review Last entry of client/product </h4>
+   <table >
+    @cid.map { c =>
+      <tr><td align='right' >review_date :</td> <td>@c.review_date.get</td></tr>
+      <tr><td align='right' >client_id :</td> <td>@c.client_id.get</td></tr>
+      <tr><td align='right' >product_id :</td> <td>@c.product_id.get</td></tr>
+      <tr><td align='right' >review_rating :</td> 
+          <td>@c.review_rating.get</td></tr>
+      <tr><td align='right' >review_text :</td> <td>@c.review_text.get</td></tr>
+    }
+   </table>
+
+    
+}

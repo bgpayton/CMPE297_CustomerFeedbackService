@@ -4,8 +4,13 @@ import play.api._
 import play.api.data._
 import play.api.data.Forms._
 import play.api.mvc._
-import models.ReviewData
 import play.api.libs.json._
+import models.ReviewData
+import models.SysINFO
+import scala.collection.mutable.ArrayBuffer
+import com.mongodb.casbah.Imports._
+import scala.util.parsing.json.JSONObject._
+
 
 object Application extends Controller {
 
@@ -29,87 +34,101 @@ object Application extends Controller {
   }
 
   
+  def getSysINFO = Action { request =>
+    val ret=SysINFO.getFew
+    Ok(views.html.SysINFO( ret.slice( ret.size-10, ret.size ) ))
+  }
   
-  /**
-   * Adds a client with the given ID to the system.
-    def addClient(clientID: String) = TODO
-    def clientForm = TODO
-   */
   
-  /**
-   * Gets the information for the given client.
-   */
-  def client(clientID: String) = TODO
-  
-  /**
-   * Displays the details for the given client.
-   */
-  def editClient(clientID: String) = TODO
-  
-  /**
-   * Removes the client with the given ID from the system.
-   */
-  def removeClient(clientID: String) = TODO
-  
-  /**
-   * Posts a new review for the given client and product.
-   */
+
+  def postAccess(clientID: String, productID: String) = Action(parse.json) { 
+   request =>
+      var mylog= " clientID=" + clientID + " productID= " + productID + " \n"
+      mylog += request.body
+
+    (request.body \ "review_rating").asOpt[String].map { review_rating =>
+        
+        (request.body \ "access_from").asOpt[String].map { access_from =>
+            mylog += "\nclientID=" + clientID  + "\n" 
+            mylog += "\naccess_from=" + access_from  + "\n" 
+            ReviewData.addAccess(clientID, productID,  access_from )
+            Ok("Review received\n" + mylog + " \n") 
+        }.getOrElse {
+           BadRequest("Missing parameter [access_from]\n")
+        }
+    }.getOrElse {
+      BadRequest("Missing parameter [review_rating]\n")
+    }
+
+  }
+
+
+
+
+
+
+
   def postReview(clientID: String, productID: String) = Action(parse.json) { 
    request =>
     (request.body \ "review_text").asOpt[String].map { review_text => 
       
       var mylog= " clientID=" + clientID + " productID= " + productID + " \n"
       mylog += request.body
-      (request.body \ "rating2").asOpt[String].map { rating2 =>
-         mylog += "\nrating=" + rating2  + "\n" 
+      (request.body \ "review_rating").asOpt[String].map { review_rating =>
+         mylog += "\nrating=" + review_rating  + "\n" 
 
-         (request.body \ "path").asOpt[String].map { path =>
-             mylog += "\npath=" + path  + "\n" 
-             ReviewData.addReview5(clientID, productID, review_text, rating2, path )
+         (request.body \ "review_rating").asOpt[String].map { review_rating =>
+             mylog += "\nreview_rating=" + review_rating  + "\n" 
+             ReviewData.addReview5(clientID, productID, review_text, review_rating )
          }.getOrElse {
-             ReviewData.addReview4(clientID, productID, review_text, rating2 )
+             ReviewData.addReview4(clientID, productID, review_text, review_rating )
          }
          Ok("Review received\n" + mylog + " \n")
         
       }.getOrElse {
          ReviewData.addReview(clientID, productID, review_text )
-         Ok("Review received\n no rating2\n" + mylog + " \n")
+         Ok("Review received\n no review_rating\n" + mylog + " \n")
       }
     }.getOrElse {
       BadRequest("Missing parameter [review_text]\n")
     }
   }
+
   
   def getReviewLast(clientID: String, productID: String) = Action { request =>
     val cursor2=ReviewData.getReviewsLast(clientID, productID)
-    var mylog = cursor2.toString
-    Ok ( "last=" +  mylog )
+    Ok ( views.html.ReviewLast( cursor2 ) )
   }
 
   def getReviewCount(clientID: String, productID: String) = Action { request =>
     val cursor = ReviewData.getReviews(clientID, productID)
-    var mysize= cursor.size; 
+    var mysize= 0; 
+    if ( cursor != null ) {
+        mysize= cursor.size -1 ; 
+    }
+
     var mylog  = "clientID=" + clientID
-    mylog  += " productID=" + productID
+    mylog  += " productID=" + productID + "\n"
 
-    val cursor2=ReviewData.getReviewsLast(clientID, productID)
-    mylog += "\n" + cursor2.toString()
+    val cursor2=ReviewData.getReviewsSum(clientID, productID)
+    var sum=""
+    if ( cursor2 != null ) {
+        cursor2 foreach { n =>
+            sum +=  n.name.get + ":"  + n.count.get + " " 
+        }
+    }
 
-    Ok ( mylog + "\n" + "size=" + mysize + "\n"  )
+    Ok ( mylog + "Total= " +   mysize + " with distrubution of " + sum +  "\n"  )
   }
 
 
   def getReviews(clientID: String, productID: String) = Action { request =>
     val cursor = ReviewData.getReviews(clientID, productID)
     
-/**
- *   cursor.foreach(review => println(review))
- */
    var outString=0
    var outString2= ReviewData.get_pid()  + "\n\n"
 
    var outString3="debug"
-//   var outString3=ReviewData.get_productID() // get function 
     cursor.foreach(
        review => { 
           outString += 1 ; 
@@ -122,20 +141,6 @@ object Application extends Controller {
     Ok("Get reviews request received " + outString + "\n" +  outString3 + "\n" + outString2)
   }
 
-  def welcome = Action { request =>
-    val was= ReviewData.addOneCount() 
-    val ip=request.remoteAddress
-    var cid= ReviewData.addOne(ip) 
-    val current= ReviewData.addOneCount() 
-    Ok( "was= " + was + " from=" + ip + " now=" + current + "\n"  )
-  }
-
-  def welcomeCount = Action { 
-    var cid= ReviewData.addOneCount() 
-    Ok( "count= " + cid )
-  }
-
-
   def prod1 = Action {
     var cid= ReviewData.get_pid2() 
     Ok(views.html.client1( cid ))
@@ -147,38 +152,23 @@ object Application extends Controller {
   }
 
 
-  def getClient(clientID: String) = Action { 
-    var cid= ReviewData.get_pid4(clientID ) 
-    Ok(views.html.clientOne( cid ))
+  def getClient(ClientID: String) = Action { 
+    var cid= ReviewData.ClientSummary(ClientID ) 
+
+    var log=""
+
+    Ok(views.html.clientOne(cid , log    ))
+
+
   }
   
-  /**
-   * Posts a rating of a given existing review as "negative".
-   */
+  def client(clientID: String) = TODO
+  def editClient(clientID: String) = TODO
+  def removeClient(clientID: String) = TODO
   def postReviewRatingNegative(reviewID: String) = TODO
-  
-  /**
-   * Posts a rating of a given existing review as "positive".
-   */
   def postReviewRatingPositive(reviewID: String) = TODO
-  
-  /**
-   * Posts a user's rating of a given existing review as "inappropriate".
-   */
   def postReviewRatingInappropriate(reviewID: String) = TODO
-  
-  /**
-   * Gets a summary report of the given type for the given client.
-   */
   def getSummaryReport(clientID: String, reportType: String) = TODO
-  
-  /**
-   * Gets a product report of the given type for the given client and product.
-   */
   def getProductReport(clientID: String, productID: String, reportType: String) = TODO
-  
-  /**
-   * Stores the given product review in the reviews DB.
-   */
   def storeReview(clientID: String, productID: String, reviewText: String) = {}
 }

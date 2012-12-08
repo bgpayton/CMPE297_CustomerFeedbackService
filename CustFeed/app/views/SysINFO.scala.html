@@ -1,0 +1,33 @@
+@(cid: Array[SysINFO]    )
+
+@import models.SysINFO
+
+@main(title = "testing") {
+
+<h4>System Performance over the time with web session:</h4>
+
+   <table border='1'>
+     <tr>
+       <th>update_day</th>
+       <th>update_time</th>
+       <th>memory_used_M</th>
+       <th>memory_free_M</th>
+       <th>memory_total_M</th>
+       <th>web_session</th>
+    </tr>
+    @cid.map { c =>
+      <tr>
+         <td>@c.update_day.get </td>
+         <td>@c.update_time.get </td>
+         <td>@c.memory_free_M.get </td>
+         <td>@c.memory_used_M.get </td>
+         <td>@c.memory_total_M.get </td>
+         <td>@c.play_session.get </td>
+      </tr>
+    }
+   </table>
+
+<br/> <br/>
+<h10>last 10</h10>
+    
+}
